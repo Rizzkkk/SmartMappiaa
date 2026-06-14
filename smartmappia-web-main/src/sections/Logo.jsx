@@ -1,30 +1,58 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
-const logoFiles = [
-  "logo1.jpg", "logo2.jpg", "logo3.png", "logo4.jpg", "logo5.png", "logo6.jpg", "logo7.png"
+const partners = [
+  { id: 1, name: "Al Baik", logo: "logo1.jpg" },
+  { id: 2, name: "Herfy", logo: "logo2.jpg" },
+  { id: 3, name: "Kudu", logo: "logo3.png" },
+  { id: 4, name: "Maestro Pizza", logo: "logo4.jpg" },
+  { id: 5, name: "Shawarma House", logo: "logo5.png" },
+  { id: 6, name: "Pizza Hut", logo: "logo6.jpg" },
+  { id: 7, name: "Starbucks", logo: "logo7.png" },
 ];
 
+const PartnerCard = ({ partner }) => (
+  <div className="group relative shrink-0 mx-5 sm:mx-7 md:mx-8 z-0 hover:z-20 transition-[transform,z-index] duration-300">
+    <div className="w-36 h-36 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 flex items-center justify-center bg-white border border-brand-border rounded-3xl p-6 sm:p-7 transition-all duration-300 ease-out group-hover:scale-110 group-hover:shadow-xl group-hover:shadow-brand-orange/15 group-hover:border-brand-orange/30">
+      <img
+        src={`/${partner.logo}`}
+        alt={`${partner.name} logo`}
+        className="max-h-full max-w-full object-contain"
+      />
+    </div>
+  </div>
+);
+
 const LogoGrid = () => {
+  const marqueeItems = [...partners, ...partners];
+
   return (
-    <div className="py-16 px-8 border-t border-white/5 bg-brand-black">
-      <p className="text-center text-brand-grey text-sm mb-12 uppercase tracking-widest font-bold">Featured Restaurant Partners</p>
-      
-      <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-8 items-center justify-items-center">
-        {logoFiles.map((logo, index) => (
-          <div key={index} className="group w-full flex items-center justify-center p-2">
-            <img 
-              src={`/${logo}`} 
-              alt={`Brand ${index + 1}`} 
-              className="max-h-50 w-auto p-1 transition-all duration-300 
-             /* MOBILE: Full opacity, no grayscale */
-             opacity-100 grayscale-[0] 
-             /* DESKTOP (md): Dimmed, grayscale, hover active */
-             md:opacity-60 md:grayscale md:hover:opacity-100 md:hover:grayscale-[0] md:hover:scale-110 
-             cursor-pointer"
-            />
-          </div>
-        ))}
+    <div className="mt-24 max-w-7xl mx-auto">
+      <div className="relative flex items-center justify-center mb-12">
+        <div className="absolute inset-x-0 h-px bg-linear-to-r from-transparent via-brand-border to-transparent" />
+        <span className="relative bg-brand-muted px-5 text-brand-orange text-sm font-bold tracking-widest uppercase">
+          Featured Restaurant Partners
+        </span>
       </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="relative"
+      >
+        <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 bg-linear-to-r from-brand-muted to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 bg-linear-to-l from-brand-muted to-transparent z-10 pointer-events-none" />
+
+        <div className="overflow-hidden py-10 sm:py-12">
+          <div className="partner-marquee-track flex w-max items-center">
+            {marqueeItems.map((partner, index) => (
+              <PartnerCard key={`${partner.id}-${index}`} partner={partner} />
+            ))}
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 };

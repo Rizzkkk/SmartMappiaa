@@ -1,139 +1,222 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  Clock,
+  MapPin,
+  PlaneTakeoff,
+  Shield,
+  ShoppingBag,
+  Smartphone,
+  Sparkles,
+  UtensilsCrossed,
+  Zap,
+} from "lucide-react";
+
+const steps = [
+  {
+    step: "01",
+    Icon: Smartphone,
+    title: "Download & sign in",
+    desc: "Get the app on iOS or Android. Create your account in under a minute.",
+    tags: ["Free app", "Quick setup"],
+    accent: "from-brand-orange to-brand-red",
+  },
+  {
+    step: "02",
+    Icon: Sparkles,
+    title: "Choose what you need",
+    desc: "Pick from food delivery, online shopping, or airport pick & drop — all in one place.",
+    services: [
+      { Icon: UtensilsCrossed, label: "Food" },
+      { Icon: ShoppingBag, label: "Shop" },
+      { Icon: PlaneTakeoff, label: "Ride" },
+    ],
+    accent: "from-orange-400 to-brand-orange",
+  },
+  {
+    step: "03",
+    Icon: MapPin,
+    title: "Track it live",
+    desc: "Follow your order on the map with real-time updates until it reaches your door.",
+    tags: ["Live GPS", "Instant alerts"],
+    accent: "from-brand-red to-orange-500",
+  },
+];
+
+const perks = [
+  { Icon: Zap, label: "Fast delivery" },
+  { Icon: MapPin, label: "Live tracking" },
+  { Icon: Shield, label: "Secure payments" },
+  { Icon: Clock, label: "24/7 support" },
+];
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 32 },
+  visible: (index) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      delay: 0.15 + index * 0.12,
+      ease: "easeOut",
+    },
+  }),
+};
 
 const HowItWorks = () => {
-  const [activeTab, setActiveTab] = useState('customer');
-
-  const stepsData = {
-    customer: [
-      { step: "01", title: "Secure Login", desc: "Access the platform securely using your unique User ID and Password authentication." },
-      { step: "02", title: "Select Service", desc: "Choose from Food Delivery, E-Commerce Shop, or book an Airport Pick & Drop ride." },
-      { step: "03", title: "Track & Receive", desc: "Monitor your driver or delivery rider via real-time GPS straight to your Riyadh district." }
-    ],
-    rider: [
-      { step: "01", title: "Driver Access", desc: "Log in securely to your Driver Profile using your verified ID credentials and password." },
-      { step: "02", title: "Accept Requests", desc: "Receive immediate notifications for nearby package deliveries, food orders, or airport trips." },
-      { step: "03", title: "Deliver & Earn", desc: "Navigate effortlessly using built-in maps and collect your earnings per single trip standard rates." }
-    ],
-    restaurant: [
-      { step: "01", title: "Partner Portal", desc: "Access your restaurant dashboard securely to manage your daily active digital store branch." },
-      { step: "02", title: "Prepare Orders", desc: "Receive instant notifications for food delivery orders and start preparing fresh meals." },
-      { step: "03", title: "Handover to Rider", desc: "Assign orders seamlessly to incoming SmartMappia riders for lightning-fast delivery." }
-    ]
-  };
-
-  const tabs = [
-    { id: 'customer', label: '👤 For Customers', color: 'bg-brand-orange' },
-    { id: 'rider', label: '🚗 For Riders', color: 'bg-white' },
-    { id: 'restaurant', label: '🍔 For Restaurants', color: 'bg-brand-orange' }
-  ];
-
   return (
-    <section id="how-it-works" className="w-full bg-brand-black px-8 md:px-20 py-24 border-t border-white/5">
-      <div className="max-w-7xl mx-auto">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-brand-orange text-sm font-bold tracking-widest uppercase">Platform Guide</span>
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white mt-2">
-            How SmartMappia Works.
-          </h2>
-          <p className="text-brand-grey text-base mt-4 font-medium">
-            One powerful ecosystem. Three custom tailored experiences. Select a role below to see how our secure platform operates seamlessly for everyone.
-          </p>
-        </div>
+    <section
+      id="how-it-works"
+      className="relative w-full bg-white px-8 md:px-20 py-24 border-t border-brand-border overflow-hidden"
+    >
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute -top-20 right-0 w-[460px] h-[460px] bg-brand-orange/6 rounded-full blur-[110px]" />
+        <div className="absolute bottom-0 -left-24 w-[320px] h-[320px] bg-brand-red/5 rounded-full blur-[90px]" />
+      </div>
 
-        {/* INTERACTIVE ROLE SWITCHER TABS */}
-        <div className="flex justify-center items-center gap-3 bg-brand-dark/60 border border-white/5 p-2 rounded-2xl max-w-xl mx-auto mb-16">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 py-3 px-4 rounded-xl text-xs md:text-sm font-black tracking-tight transition-all relative cursor-pointer ${
-                activeTab === tab.id ? 'text-brand-black' : 'text-brand-grey hover:text-white'
-              }`}
-            >
-              {/* Dynamic sliding background panel element via Framer Motion */}
-              {activeTab === tab.id && (
-                <motion.div 
-                  layoutId="activeTabIndicator"
-                  className={`absolute inset-0 rounded-xl z-0 ${tab.id === 'rider' ? 'bg-white' : 'bg-brand-orange'}`}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                />
-              )}
-              <span className="relative z-10">{tab.label}</span>
-            </button>
-          ))}
-        </div>
+      <div className="max-w-7xl mx-auto relative">
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10 mb-12 md:mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="max-w-xl"
+          >
+            <span className="text-brand-orange text-sm font-bold tracking-widest uppercase">
+              How It Works
+            </span>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight text-brand-black mt-2 leading-tight">
+              Your daily essentials,{" "}
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-brand-orange to-brand-red">
+                three easy steps.
+              </span>
+            </h2>
+            <p className="text-brand-grey text-sm md:text-base mt-4 font-medium leading-relaxed">
+              No complicated menus or long forms — just open the app, place your
+              order, and watch it come to you.
+            </p>
+          </motion.div>
 
-        {/* ANIMATED STEP CARDS CONTAINER FRAME */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 min-h-70">
-          <AnimatePresence mode="wait">
-            {stepsData[activeTab].map((item, index) => (
-              <motion.div
-                key={`${activeTab}-${index}`} 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="bg-brand-dark/30 border border-white/5 p-8 rounded-3xl relative overflow-hidden flex flex-col justify-between group hover:border-white/10 transition-colors cursor-pointer"
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="flex flex-wrap gap-3 lg:justify-end"
+          >
+            {perks.map(({ Icon, label }) => (
+              <span
+                key={label}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-brand-warm border border-brand-orange/15 text-brand-dark text-xs font-bold"
               >
-                <div>
-                  {/* Step Large Number Badge Display */}
-                  <span className={`text-4xl font-black block tracking-tighter mb-6 ${activeTab === 'rider' ? 'text-white/20 group-hover:text-white/90' : 'text-brand-orange/20 group-hover:text-brand-orange/90'} transition-colors`}>
-                    {item.step}
-                  </span>
-                  <h3 className="text-xl font-black text-white mb-3 tracking-tight">
-                    {item.title}
-                  </h3>
-                  <p className="text-brand-grey text-sm leading-relaxed font-medium">
-                    {item.desc}
-                  </p>
-                </div>
-                
-                {/* Accent indicator strip element animation framework */}
-                <div className={`w-12 h-1 rounded-full mt-8 ${activeTab === 'rider' ? 'bg-white/40' : 'bg-brand-orange/40'}`} />
-              </motion.div>
+                <Icon className="w-3.5 h-3.5 text-brand-orange" strokeWidth={2.5} />
+                {label}
+              </span>
             ))}
-          </AnimatePresence>
+          </motion.div>
         </div>
-            {/* VIDEO & DIAGRAM SECTION */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-16 grid md:grid-cols-2 gap-8"
+          transition={{ duration: 0.55, delay: 0.05 }}
+          className="relative bg-brand-muted/80 border border-brand-border rounded-[2rem] p-6 md:p-10 lg:p-12"
         >
-          {/* Instruction Text Container */}
-          <div className="bg-brand-dark/30 border border-white/5 rounded-3xl p-8 flex flex-col justify-center">
-            <h4 className="text-white font-black text-2xl mb-6">Quick Start Guide</h4>
-            <div className="space-y-6">
-              {[
-                { title: "Verification", text: "Ensure your mobile number is verified to receive OTP codes instantly." },
-                { title: "Permissions", text: "Grant location access for real-time tracking and delivery accuracy." },
-                { title: "Profile Setup", text: "Complete your profile details to unlock all platform features seamlessly." }
-              ].map((instr, idx) => (
-                <div key={idx} className="flex gap-4">
-                  <div className="w-8 h-8 rounded-full bg-brand-orange/20 flex items-center justify-center text-brand-orange font-bold shrink-0">
-                    {idx + 1}
-                  </div>
-                  <div>
-                    <h5 className="text-white font-bold">{instr.title}</h5>
-                    <p className="text-brand-grey text-sm">{instr.text}</p>
+          <div
+            className="hidden lg:block absolute top-[4.25rem] left-[12%] right-[12%] h-px bg-linear-to-r from-brand-orange/20 via-brand-orange/50 to-brand-red/20"
+            aria-hidden="true"
+          />
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-6">
+            {steps.map((item, index) => (
+              <motion.div
+                key={item.step}
+                custom={index}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-40px" }}
+                className="relative flex flex-col"
+              >
+                <div className="flex justify-center mb-6 lg:mb-8">
+                  <div
+                    className={`relative z-10 w-14 h-14 rounded-2xl bg-linear-to-br ${item.accent} flex items-center justify-center shadow-lg shadow-brand-orange/25 ring-4 ring-brand-muted`}
+                  >
+                    <item.Icon className="w-7 h-7 text-white" strokeWidth={2} />
                   </div>
                 </div>
-              ))}
-            </div>
-  </div>
 
-          {/* Diagram / Instruction Layout */}
-          <div className="bg-brand-dark/30 border border-white/5 rounded-3xl p-8 flex flex-col justify-center">
-            <h4 className="text-white font-black mb-4">Platform Workflow Diagram</h4>
-            <div className="bg-white/5 rounded-2xl p-6 border border-white/5">
-              {/* Dito mo ilagay ang image diagram mo */}
-              <img src="/flow.png" alt="How to Log In Diagram" className="w-full h-auto max-h-125 object-contain rounded-lg" />
-            </div>
+                <div className="flex-1 bg-white border border-brand-border rounded-3xl p-6 md:p-7 shadow-sm transition-all duration-300 hover:border-brand-orange/25 hover:shadow-xl hover:shadow-brand-orange/8 group">
+                  <div className="absolute top-5 right-5 text-5xl font-black text-brand-orange/8 group-hover:text-brand-orange/15 transition-colors select-none pointer-events-none">
+                    {item.step}
+                  </div>
+
+                  <span className="inline-block text-[10px] font-black uppercase tracking-widest text-brand-orange mb-3">
+                    Step {item.step}
+                  </span>
+
+                  <h3 className="text-xl font-black text-brand-black tracking-tight mb-2 pr-8">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-brand-grey text-sm leading-relaxed mb-5">
+                    {item.desc}
+                  </p>
+
+                  {item.services && (
+                    <div className="flex flex-wrap gap-2">
+                      {item.services.map(({ Icon, label }) => (
+                        <span
+                          key={label}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-warm border border-brand-orange/10 text-xs font-bold text-brand-dark"
+                        >
+                          <Icon className="w-3.5 h-3.5 text-brand-orange" strokeWidth={2.25} />
+                          {label}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {item.tags && (
+                    <div className="flex flex-wrap gap-2">
+                      {item.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-[11px] font-bold text-brand-grey bg-brand-surface px-3 py-1.5 rounded-lg border border-brand-border"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="mt-6 h-1 w-12 rounded-full bg-linear-to-r from-brand-orange to-brand-red opacity-40 group-hover:opacity-100 group-hover:w-16 transition-all duration-300" />
+                </div>
+              </motion.div>
+            ))}
           </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-5 rounded-2xl border border-brand-orange/15 bg-linear-to-r from-brand-warm to-white"
+        >
+          <p className="text-sm md:text-base font-bold text-brand-black text-center sm:text-left">
+            Everything you need runs inside{" "}
+            <span className="text-brand-orange">one SmartMappia app.</span>
+          </p>
+          <a
+            href="#home"
+            className="shrink-0 inline-flex items-center gap-2 bg-linear-to-r from-brand-orange to-brand-red text-white text-sm font-black px-6 py-3 rounded-xl shadow-md shadow-brand-orange/25 hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all duration-300"
+          >
+            <Smartphone className="w-4 h-4" strokeWidth={2.5} />
+            Get Started
+          </a>
         </motion.div>
       </div>
     </section>
