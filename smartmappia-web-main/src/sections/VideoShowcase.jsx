@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Play, Pause, Star } from "lucide-react";
+import { Play, Pause } from "lucide-react";
 
 const highlights = [
   "Order food, shop, or book rides in one app",
@@ -135,25 +135,6 @@ const VideoShowcase = () => {
                 )}
               </span>
             </button>
-
-            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 pointer-events-none">
-              <div className="flex items-center gap-3 bg-brand-dark/80 backdrop-blur-md border border-white/10 rounded-2xl px-4 py-3 shadow-xl">
-                <div className="w-9 h-9 rounded-xl bg-brand-orange/20 flex items-center justify-center">
-                  <MapPin className="w-4 h-4 text-brand-orange" />
-                </div>
-                <div>
-                  <p className="text-white text-sm font-bold leading-tight">
-                    Live Tracking
-                  </p>
-                  <p className="text-brand-grey text-xs">Real-time updates</p>
-                </div>
-              </div>
-
-              <div className="hidden sm:flex items-center gap-1.5 bg-brand-orange text-white text-xs font-black px-4 py-2.5 rounded-xl shadow-lg shadow-brand-orange/30">
-                <span>4.9</span>
-                <Star className="w-3.5 h-3.5 fill-current" />
-              </div>
-            </div>
           </div>
         </motion.div>
       </div>
