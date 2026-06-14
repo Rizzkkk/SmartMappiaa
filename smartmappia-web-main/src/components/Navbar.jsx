@@ -1,125 +1,221 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [hoveredLink, setHoveredLink] = useState(null);
 
   const menuLinks = [
-    { name: "Home", href: "#" },
-    { name: "Features", href: "#features" },
-    { name: "Restaurants", href: "#restaurants" },
-    { name: "Shop", href: "#shop" },
-    { name: "Pick & Drop", href: "#pick-drop" },
-    { name: "How It Works", href: "#how-it-works"},
-    { name: "FAQ", href: "#faq"}
+    { name: "Home",         href: "#home",         emoji: "🏠" },
+    { name: "About",        href: "#about",        emoji: "ℹ️" },
+    { name: "Features",     href: "#features",     emoji: "✨" },
+    { name: "How It Works", href: "#how-it-works", emoji: "💡" },
+    { name: "Restaurants",  href: "#restaurants",  emoji: "🍽️" },
+    { name: "Shop",         href: "#shop",         emoji: "🛍️" },
+    { name: "Pick & Drop",  href: "#pick-drop",    emoji: "📦" },
+    { name: "FAQ",          href: "#faq",          emoji: "❓" },
   ];
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [isOpen]);
 
   return (
     <>
-      {/* MAIN NAVBAR CONTAINER */}
-      <nav className="w-full h-20 bg-brand-black/80 backdrop-blur-md border-b border-white/5 px-6 md:px-20 flex items-center justify-between fixed top-0 left-0 z-50">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-transparent flex items-center justify-center overflow-hidden">
-            <img 
+      {/* ── Desktop / Tablet Navbar ────────────────────────────────────── */}
+      <motion.nav
+        animate={{
+          backgroundColor: scrolled
+            ? "rgba(255,255,255,0.97)"
+            : "rgba(255,255,255,0.80)",
+          boxShadow: scrolled
+            ? "0 8px 32px rgba(249,115,22,0.10), 0 2px 8px rgba(0,0,0,0.06)"
+            : "0 2px 4px rgba(0,0,0,0.04)",
+        }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="w-full h-20 backdrop-blur-md border-b border-brand-border
+                   px-6 md:px-20 flex items-center justify-between
+                   fixed top-0 left-0 z-50"
+      >
+        {/* Logo */}
+        <a href="#home" className="flex items-center gap-3">
+          <motion.div
+            whileHover={{ scale: 1.1, rotate: -5 }}
+            transition={{ type: "spring", stiffness: 320, damping: 14 }}
+            className="w-12 h-12 flex items-center justify-center overflow-hidden"
+          >
+            <img
               src="/mappia-new-logo.png"
-              alt="SmartMappia Logo" 
+              alt="SmartMappia Logo"
               className="w-full h-full object-contain"
             />
-          </div>
-          <a href="#">
-          <span className="text-xl font-black tracking-tight text-white cursor-pointer">
+          </motion.div>
+          <span className="text-xl font-black tracking-tight text-brand-black">
             Smart <span className="text-brand-orange">Mappia</span>
           </span>
-          </a>
-        </div>
+        </a>
 
-        {/* MENU LINKS (Hidden on Mobile, Visible on Desktop) */}
-        <ul className="hidden md:flex items-center gap-10 text-sm font-medium">
+        {/* Desktop Nav Links */}
+        <ul className="hidden md:flex items-center gap-0.5 text-sm font-semibold">
           {menuLinks.map((link, index) => (
-            <li key={index} className="text-brand-grey cursor-pointer hover:text-white transition-colors duration-200">
-              <a href={link.href}>{link.name}</a>
+            <li key={index}>
+              <a
+                href={link.href}
+                onMouseEnter={() => setHoveredLink(index)}
+                onMouseLeave={() => setHoveredLink(null)}
+                className="relative flex items-center px-4 py-2 rounded-full
+                           text-brand-grey hover:text-brand-orange
+                           transition-colors duration-150"
+              >
+                {/* Floating pill highlight — slides between links */}
+                {hoveredLink === index && (
+                  <motion.span
+                    layoutId="nav-pill"
+                    className="absolute inset-0 bg-orange-50 rounded-full"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  />
+                )}
+                <span className="relative z-10">{link.name}</span>
+              </a>
             </li>
           ))}
         </ul>
 
-        {/* DOWNLOAD BUTTON (Hidden on Mobile, Visible on Desktop) */}
+        {/* Desktop CTA */}
         <div className="hidden md:block">
-          <button className="bg-brand-orange hover:bg-brand-orange/90 text-white text-xs font-black px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-[1.02] cursor-pointer">
+          <motion.button
+            whileHover={{ scale: 1.05, y: -1 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 18 }}
+            className="bg-brand-orange text-white text-xs font-black
+                       px-6 py-3 rounded-full cursor-pointer
+                       shadow-md shadow-brand-orange/25
+                       hover:shadow-xl hover:shadow-brand-orange/30
+                       transition-shadow duration-300"
+          >
             Download App
-          </button>
+          </motion.button>
         </div>
 
-        {/* 4. MOBILE HAMBURGER BUTTON (Visible on Mobile, Hidden on Desktop) */}
-        <button 
+        {/* Mobile Hamburger → X */}
+        <button
           onClick={() => setIsOpen(!isOpen)}
-          className="block md:hidden text-white focus:outline-none z-50 cursor-pointer p-2"
+          aria-label="Toggle menu"
+          className="block md:hidden focus:outline-none z-50 cursor-pointer
+                     p-2 rounded-xl hover:bg-orange-50 transition-colors"
         >
-          {/* Dynamic icon switch base sa open/close state */}
-          {isOpen ? (
-            <span className="text-2xl font-bold">✕</span>
-          ) : (
-            <div className="space-y-1.5 w-6">
-              <span className="block h-0.5 w-full bg-white rounded-full"></span>
-              <span className="block h-0.5 w-full bg-white rounded-full"></span>
-              <span className="block h-0.5 w-full bg-white rounded-full"></span>
-            </div>
-          )}
+          <div className="w-6 h-[18px] flex flex-col justify-between">
+            <motion.span
+              animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 22 }}
+              className="block h-0.5 w-full bg-brand-dark rounded-full"
+            />
+            <motion.span
+              animate={isOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+              transition={{ duration: 0.18 }}
+              className="block h-0.5 w-full bg-brand-dark rounded-full"
+            />
+            <motion.span
+              animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 22 }}
+              className="block h-0.5 w-full bg-brand-dark rounded-full"
+            />
+          </div>
         </button>
-      </nav>
+      </motion.nav>
 
-      {/* 5. FRAMER MOTION MOBILE SIDEBAR (AnimatePresence catches unmounting transitions) */}
+      {/* ── Mobile Slide-in Panel ──────────────────────────────────────── */}
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Dark Transparent Backdrop Blur overlay effect */}
-            <motion.div 
+            {/* Backdrop */}
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setIsOpen(false)} 
-              className="fixed inset-0 bg-brand-black/60 backdrop-blur-sm z-40 md:hidden"
+              transition={{ duration: 0.22 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 md:hidden"
             />
 
-            {/* Actual Sliding Sidebar Panel */}
-            <motion.div 
-              initial={{ x: "100%" }} 
-              animate={{ x: 0 }}       
-              exit={{ x: "100%" }}     
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 h-full w-70 bg-brand-dark border-l border-white/5 p-8 pt-28 z-45 md:hidden flex flex-col justify-between"
+            {/* Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 26, stiffness: 210 }}
+              className="fixed top-0 right-0 h-full w-72 bg-white
+                         rounded-l-3xl z-45 md:hidden
+                         flex flex-col justify-between shadow-2xl overflow-hidden"
             >
-              {/* Mobile Sidebar Links List Frame */}
-              <ul className="flex flex-col gap-6 text-lg font-bold">
-                {menuLinks.map((link, index) => (
-                  <motion.li 
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }} 
-                    key={index} 
-                    className="text-brand-grey hover:text-brand-orange transition-colors"
-                  >
-                    <a 
-                      href={link.href}
-                      onClick={() => setIsOpen(false)} 
-                    >
-                      {link.name}
-                    </a>
-                  </motion.li>
-                ))}
-              </ul>
+              {/* Warm orange accent strip at top */}
+              <div className="absolute top-0 left-0 right-0 h-1
+                              bg-gradient-to-r from-brand-orange/50 to-brand-orange
+                              rounded-tl-3xl" />
 
-              {/* Bottom Action Section template button copy */}
+              {/* Nav Links */}
+              <div className="pt-28 px-6">
+                <ul className="flex flex-col gap-0.5">
+                  {menuLinks.map((link, index) => (
+                    <motion.li
+                      key={index}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{
+                        delay: 0.04 + index * 0.05,
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 24,
+                      }}
+                    >
+                      <a
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 rounded-2xl
+                                   text-brand-grey hover:text-brand-orange
+                                   hover:bg-orange-50 transition-all duration-150
+                                   font-semibold text-base group"
+                      >
+                        <span className="text-lg select-none">{link.emoji}</span>
+                        <span>{link.name}</span>
+                        <span className="ml-auto text-brand-orange text-sm
+                                         opacity-0 group-hover:opacity-100
+                                         transition-opacity duration-150">
+                          →
+                        </span>
+                      </a>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Bottom CTA */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="w-full"
+                transition={{ delay: 0.38 }}
+                className="p-6"
               >
-                <button className="w-full bg-brand-orange text-white font-black py-4 rounded-xl text-center text-sm shadow-lg shadow-brand-orange/20 cursor-pointer">
+                <button
+                  className="w-full bg-brand-orange text-white font-black
+                             py-4 rounded-2xl text-sm cursor-pointer
+                             shadow-lg shadow-brand-orange/25
+                             active:scale-[0.97] transition-transform duration-150"
+                >
                   Download App
                 </button>
+                <p className="text-center text-xs text-brand-grey mt-3 font-medium">
+                  Available on iOS &amp; Android
+                </p>
               </motion.div>
-
             </motion.div>
           </>
         )}

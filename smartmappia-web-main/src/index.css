@@ -1,15 +1,39 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-black: #121212;
-  --color-brand-dark: #1a1a1a;
-  --color-brand-orange: #FF5500;
-  --color-brand-grey: #999999;
+  /* Logo-inspired brand colors */
+  --color-brand-orange: #FF7E21;
+  --color-brand-red: #E62B25;
+  --color-brand-black: #111827;
+  --color-brand-dark: #1F2937;
+  --color-brand-grey: #6B7280;
+  --color-brand-light: #FFFFFF;
+  --color-brand-muted: #F9FAFB;
+  --color-brand-surface: #F3F4F6;
+  --color-brand-border: #E5E7EB;
+  --color-brand-warm: #FFF7F0;
 }
 
 body {
-  background-color: var(--color-brand-black);
-  color: #ffffff;
+  background-color: var(--color-brand-light);
+  color: var(--color-brand-dark);
   font-family: sans-serif;
   margin: 0;
+}
+
+@keyframes partner-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.partner-marquee-track {
+  animation: partner-marquee 40s linear infinite;
+}
+
+.partner-marquee-track:hover {
+  animation-play-state: paused;
 }
