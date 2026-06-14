@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  Home,
+  Info,
+  Sparkles,
+  Lightbulb,
+  UtensilsCrossed,
+  ShoppingBag,
+  Package,
+  HelpCircle,
+} from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -7,14 +17,14 @@ const Navbar = () => {
   const [hoveredLink, setHoveredLink] = useState(null);
 
   const menuLinks = [
-    { name: "Home",         href: "#home",         emoji: "🏠" },
-    { name: "About",        href: "#about",        emoji: "ℹ️" },
-    { name: "Features",     href: "#features",     emoji: "✨" },
-    { name: "How It Works", href: "#how-it-works", emoji: "💡" },
-    { name: "Restaurants",  href: "#restaurants",  emoji: "🍽️" },
-    { name: "Shop",         href: "#shop",         emoji: "🛍️" },
-    { name: "Pick & Drop",  href: "#pick-drop",    emoji: "📦" },
-    { name: "FAQ",          href: "#faq",          emoji: "❓" },
+    { name: "Home",         href: "#home",         Icon: Home },
+    { name: "About",        href: "#about",        Icon: Info },
+    { name: "Features",     href: "#features",     Icon: Sparkles },
+    { name: "How It Works", href: "#how-it-works", Icon: Lightbulb },
+    { name: "Restaurants",  href: "#restaurants",  Icon: UtensilsCrossed },
+    { name: "Shop",         href: "#shop",         Icon: ShoppingBag },
+    { name: "Pick & Drop",  href: "#pick-drop",    Icon: Package },
+    { name: "FAQ",          href: "#faq",          Icon: HelpCircle },
   ];
 
   useEffect(() => {
@@ -41,7 +51,7 @@ const Navbar = () => {
             : "0 2px 4px rgba(0,0,0,0.04)",
         }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className="w-full h-20 backdrop-blur-md border-b border-brand-border
+        className="w-full h-20 border-b border-brand-border
                    px-6 md:px-20 flex items-center justify-between
                    fixed top-0 left-0 z-50"
       >
@@ -143,7 +153,7 @@ const Navbar = () => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.22 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 md:hidden"
+              className="fixed inset-0 bg-black/30 z-40 md:hidden"
             />
 
             {/* Panel */}
@@ -151,7 +161,8 @@ const Navbar = () => {
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 26, stiffness: 210 }}
+              transition={{ type: "tween", duration: 0.22, ease: "easeOut" }}
+              style={{ willChange: "transform" }}
               className="fixed top-0 right-0 h-full w-72 bg-white
                          rounded-l-3xl z-45 md:hidden
                          flex flex-col justify-between shadow-2xl overflow-hidden"
@@ -165,17 +176,7 @@ const Navbar = () => {
               <div className="pt-28 px-6">
                 <ul className="flex flex-col gap-0.5">
                   {menuLinks.map((link, index) => (
-                    <motion.li
-                      key={index}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{
-                        delay: 0.04 + index * 0.05,
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 24,
-                      }}
-                    >
+                    <li key={index}>
                       <a
                         href={link.href}
                         onClick={() => setIsOpen(false)}
@@ -184,7 +185,7 @@ const Navbar = () => {
                                    hover:bg-orange-50 transition-all duration-150
                                    font-semibold text-base group"
                       >
-                        <span className="text-lg select-none">{link.emoji}</span>
+                        <link.Icon className="w-5 h-5 text-brand-orange shrink-0" strokeWidth={2} />
                         <span>{link.name}</span>
                         <span className="ml-auto text-brand-orange text-sm
                                          opacity-0 group-hover:opacity-100
@@ -192,7 +193,7 @@ const Navbar = () => {
                           →
                         </span>
                       </a>
-                    </motion.li>
+                    </li>
                   ))}
                 </ul>
               </div>
