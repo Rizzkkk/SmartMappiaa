@@ -198,26 +198,6 @@ const HowItWorks = () => {
             ))}
           </div>
         </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-5 rounded-2xl border border-brand-orange/15 bg-linear-to-r from-brand-warm to-white"
-        >
-          <p className="text-sm md:text-base font-bold text-brand-black text-center sm:text-left">
-            Everything you need runs inside{" "}
-            <span className="text-brand-orange">one SmartMappia app.</span>
-          </p>
-          <a
-            href="#home"
-            className="shrink-0 inline-flex items-center gap-2 bg-linear-to-r from-brand-orange to-brand-red text-white text-sm font-black px-6 py-3 rounded-xl shadow-md shadow-brand-orange/25 hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all duration-300"
-          >
-            <Smartphone className="w-4 h-4" strokeWidth={2.5} />
-            Get Started
-          </a>
-        </motion.div>
       </div>
     </section>
   );

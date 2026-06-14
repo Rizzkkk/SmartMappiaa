@@ -88,12 +88,18 @@ const Hero = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
-            <button className="bg-brand-orange hover:bg-brand-orange/90 text-white font-bold text-sm px-7 py-3.5 rounded-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer shadow-md shadow-brand-orange/20">
-              Download App
-            </button>
-            <button className="text-brand-grey hover:text-brand-orange font-semibold text-sm px-4 py-3.5 rounded-xl border border-brand-border hover:border-brand-orange/30 hover:bg-brand-warm transition-all duration-300 cursor-pointer">
-              Explore Services →
-            </button>
+            <a
+              href="#features"
+              className="bg-brand-orange hover:bg-brand-orange/90 text-white font-bold text-sm px-7 py-3.5 rounded-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer shadow-md shadow-brand-orange/20"
+            >
+              Explore Services
+            </a>
+            <a
+              href="#see-it-in-action"
+              className="text-brand-grey hover:text-brand-orange font-semibold text-sm px-4 py-3.5 rounded-xl border border-brand-border hover:border-brand-orange/30 hover:bg-brand-warm transition-all duration-300"
+            >
+              Watch demo →
+            </a>
           </div>
 
           <div className="flex flex-wrap gap-8 pt-2 border-t border-brand-border w-full max-w-xl">
