@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {motion, useTime} from "framer-motion";
+import { Link } from "react-router-dom";
 
 const PickDrop = () => {
     
@@ -60,13 +61,13 @@ const PickDrop = () => {
                         onClick={() => setServiceType('to-airport')}
                         className={`py-2.5 rounded-lg text-xs md:text-sm font-bold transition-all cursor-pointer ${serviceType === 'to-airport' ? 'bg-brand-orange text-white shadow-md shadow-brand-orange/20' : 'text-brand-grey hover:text-brand-dark'}`}
                         >
-                        🏠 House ➔ ✈️ Airport
+                        House to Airport
                         </button>
                         <button 
                         onClick={() => setServiceType('from-airport')}
                         className={`py-2.5 rounded-lg text-xs md:text-sm font-bold transition-all cursor-pointer ${serviceType === 'from-airport' ? 'bg-brand-orange text-white shadow-md shadow-brand-orange/20' : 'text-brand-grey hover:text-brand-dark'}`}
                         >
-                        ✈️ Airport ➔ 🏠 House
+                        Airport to House
                         </button>
                     </div>
 
@@ -115,9 +116,9 @@ const PickDrop = () => {
                         </div>
                     </div>
 
-                    <button className="w-full bg-brand-orange hover:bg-brand-orange/90 text-white font-black py-4 rounded-xl mt-6 transition-all duration-300 shadow-lg shadow-brand-orange/20 text-center text-sm cursor-pointer">
-                        Book Ride via App
-                    </button>
+                    <Link to="/book" className="block w-full bg-brand-orange hover:bg-brand-orange/90 text-white font-black py-4 rounded-xl mt-6 transition-all duration-300 shadow-lg shadow-brand-orange/20 text-center text-sm cursor-pointer">
+                        Book Ride Now
+                    </Link>
                 </motion.div>
 
             </div>
