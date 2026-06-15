@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Home,
@@ -74,14 +75,14 @@ const Navbar = () => {
         </a>
 
         {/* Desktop Nav Links */}
-        <ul className="hidden md:flex items-center gap-0.5 text-sm font-semibold">
+        <ul className="hidden lg:flex items-center gap-0.5 text-sm font-semibold">
           {menuLinks.map((link, index) => (
             <li key={index}>
               <a
                 href={link.href}
                 onMouseEnter={() => setHoveredLink(index)}
                 onMouseLeave={() => setHoveredLink(null)}
-                className="relative flex items-center px-4 py-2 rounded-full
+                className="relative flex items-center whitespace-nowrap px-3 py-2 rounded-full
                            text-brand-grey hover:text-brand-orange
                            transition-colors duration-150"
               >
@@ -100,26 +101,35 @@ const Navbar = () => {
         </ul>
 
         {/* Desktop CTA */}
-        <div className="hidden md:block">
-          <motion.button
-            whileHover={{ scale: 1.05, y: -1 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 18 }}
-            className="bg-brand-orange text-white text-xs font-black
-                       px-6 py-3 rounded-full cursor-pointer
-                       shadow-md shadow-brand-orange/25
-                       hover:shadow-xl hover:shadow-brand-orange/30
-                       transition-shadow duration-300"
+        <div className="hidden lg:flex items-center gap-2 shrink-0">
+          <Link
+            to="/login"
+            className="whitespace-nowrap text-sm font-bold px-3 py-2 rounded-full cursor-pointer
+                       text-brand-dark hover:text-brand-orange transition-colors"
           >
-            Download App
-          </motion.button>
+            Sign in
+          </Link>
+          <Link to="/book">
+            <motion.span
+              whileHover={{ scale: 1.05, y: -1 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 18 }}
+              className="inline-block whitespace-nowrap bg-brand-orange text-white text-xs font-black
+                         px-5 py-3 rounded-full cursor-pointer
+                         shadow-md shadow-brand-orange/25
+                         hover:shadow-xl hover:shadow-brand-orange/30
+                         transition-shadow duration-300"
+            >
+              Book a Ride
+            </motion.span>
+          </Link>
         </div>
 
         {/* Mobile Hamburger → X */}
         <button
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle menu"
-          className="block md:hidden focus:outline-none z-50 cursor-pointer
+          className="block lg:hidden focus:outline-none z-50 cursor-pointer
                      p-2 rounded-xl hover:bg-orange-50 transition-colors"
         >
           <div className="w-6 h-[18px] flex flex-col justify-between">
@@ -153,7 +163,7 @@ const Navbar = () => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.22 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/30 z-40 md:hidden"
+              className="fixed inset-0 bg-black/30 z-40 lg:hidden"
             />
 
             {/* Panel */}
@@ -164,7 +174,7 @@ const Navbar = () => {
               transition={{ type: "tween", duration: 0.22, ease: "easeOut" }}
               style={{ willChange: "transform" }}
               className="fixed top-0 right-0 h-full w-72 bg-white
-                         rounded-l-3xl z-45 md:hidden
+                         rounded-l-3xl z-45 lg:hidden
                          flex flex-col justify-between shadow-2xl overflow-hidden"
             >
               {/* Warm orange accent strip at top */}
@@ -205,17 +215,24 @@ const Navbar = () => {
                 transition={{ delay: 0.38 }}
                 className="p-6"
               >
-                <button
-                  className="w-full bg-brand-orange text-white font-black
+                <Link
+                  to="/book"
+                  onClick={() => setIsOpen(false)}
+                  className="block text-center w-full bg-brand-orange text-white font-black
                              py-4 rounded-2xl text-sm cursor-pointer
                              shadow-lg shadow-brand-orange/25
                              active:scale-[0.97] transition-transform duration-150"
                 >
-                  Download App
-                </button>
-                <p className="text-center text-xs text-brand-grey mt-3 font-medium">
-                  Available on iOS &amp; Android
-                </p>
+                  Book a Ride
+                </Link>
+                <Link
+                  to="/login"
+                  onClick={() => setIsOpen(false)}
+                  className="block text-center w-full mt-3 font-black py-3 rounded-2xl text-sm
+                             text-brand-dark border border-brand-border cursor-pointer"
+                >
+                  Sign in
+                </Link>
               </motion.div>
             </motion.div>
           </>

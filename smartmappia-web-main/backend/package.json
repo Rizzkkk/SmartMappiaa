@@ -1,0 +1,22 @@
+{
+  "name": "smart-mappia-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Smart Mappia — Airport Pick & Drop backend (Express + Supabase, plain JavaScript)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "seed:admin": "node scripts/seed-admin.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0"
+  }
+}
